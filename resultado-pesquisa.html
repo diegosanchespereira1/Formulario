@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RecycleApp Results</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#4CAF50",
+            "background-light": "#F5F5F5",
+            "background-dark": "#102216",
+            "text-dark": "#333333",
+            "text-light": "#F5F5F5",
+            "chart-blue": "#2196F3",
+            "chart-yellow": "#FFC107",
+            "chart-green": "#4CAF50",
+            "chart-gray": "#9E9E9E",
+          },
+          fontFamily: {
+            "display": ["Manrope", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "1rem",
+            "xl": "1.5rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-dark dark:text-text-light">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<div class="flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e0e0e0] dark:border-b-[#333] px-10 py-3">
+<div class="flex items-center gap-4 text-text-dark dark:text-text-light">
+<div class="size-6 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M36.7273 44C33.9891 44 31.6043 39.8386 30.3636 33.69C29.123 39.8386 26.7382 44 24 44C21.2618 44 18.877 39.8386 17.6364 33.69C16.3957 39.8386 14.0109 44 11.2727 44C7.25611 44 4 35.0457 4 24C4 12.9543 7.25611 4 11.2727 4C14.0109 4 16.3957 8.16144 17.6364 14.31C18.877 8.16144 21.2618 4 24 4C26.7382 4 29.123 8.16144 30.3636 14.31C31.6043 8.16144 33.9891 4 36.7273 4C40.7439 4 44 12.9543 44 24C44 35.0457 40.7439 44 36.7273 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-text-dark dark:text-text-light text-xl font-bold leading-tight tracking-[-0.015em]">RecycleApp</h2>
+</div>
+<div class="flex gap-4">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Compartilhar Meus Resultados</span>
+</button>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-primary/20 dark:bg-primary/30 text-text-dark dark:text-text-light text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Aprenda Mais</span>
+</button>
+</div>
+</header>
+<main class="flex-1 px-4 sm:px-6 lg:px-8">
+<div class="flex flex-wrap justify-between gap-3 p-4 mt-8">
+<div class="flex min-w-72 flex-col gap-3">
+<p class="text-text-dark dark:text-text-light text-4xl font-black leading-tight tracking-[-0.033em]">Seu Impacto de Reciclagem Mensal</p>
+<p class="text-gray-500 dark:text-gray-400 text-lg font-normal leading-normal">Você reciclou o equivalente a 3 árvores este mês!</p>
+</div>
+</div>
+<div class="flex flex-wrap gap-4 px-4 py-6">
+<div class="flex min-w-72 flex-1 flex-col gap-4 rounded-xl border border-[#e0e0e0] dark:border-[#333] p-6 bg-white dark:bg-background-dark shadow-sm">
+<p class="text-text-dark dark:text-text-light text-lg font-medium leading-normal">Seu Consumo em Números</p>
+<div class="flex items-baseline gap-2">
+<p class="text-text-dark dark:text-text-light tracking-light text-4xl font-bold leading-tight truncate">40kg</p>
+<p class="text-primary text-base font-medium leading-normal">+5% vs. Mês Passado</p>
+</div>
+<div class="grid min-h-[220px] grid-flow-col gap-6 grid-rows-[1fr_auto] items-end justify-items-center px-3 pt-4">
+<div class="w-full flex flex-col justify-end items-center group">
+<div class="bg-chart-yellow h-[60%] w-full rounded-t-lg transition-all duration-300 group-hover:bg-yellow-400"></div>
+<p class="text-gray-500 dark:text-gray-400 text-[13px] font-bold leading-normal tracking-[0.015em] mt-2">Plástico</p>
+</div>
+<div class="w-full flex flex-col justify-end items-center group">
+<div class="bg-chart-blue h-[40%] w-full rounded-t-lg transition-all duration-300 group-hover:bg-blue-400"></div>
+<p class="text-gray-500 dark:text-gray-400 text-[13px] font-bold leading-normal tracking-[0.015em] mt-2">Papel</p>
+</div>
+<div class="w-full flex flex-col justify-end items-center group">
+<div class="bg-chart-green h-[80%] w-full rounded-t-lg transition-all duration-300 group-hover:bg-green-400"></div>
+<p class="text-gray-500 dark:text-gray-400 text-[13px] font-bold leading-normal tracking-[0.015em] mt-2">Vidro</p>
+</div>
+<div class="w-full flex flex-col justify-end items-center group">
+<div class="bg-chart-gray h-[30%] w-full rounded-t-lg transition-all duration-300 group-hover:bg-gray-400"></div>
+<p class="text-gray-500 dark:text-gray-400 text-[13px] font-bold leading-normal tracking-[0.015em] mt-2">Metal</p>
+</div>
+</div>
+</div>
+</div>
+<h2 class="text-text-dark dark:text-text-light text-2xl font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Dicas Para Você</h2>
+<div class="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4 p-4">
+<div class="flex flex-col gap-3 pb-3 rounded-xl border border-[#e0e0e0] dark:border-[#333] p-4 bg-white dark:bg-background-dark shadow-sm hover:shadow-lg transition-shadow">
+<div class="w-full h-40 bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="ilustração de vários tipos de plástico" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC2xxEnJkUyGek-Z-25ZNwGC7nEAkKCBG5IvfqzYSpRV-WV4smDh4QY_RKHkPCPvXjQQcg10AHuxc7ZlH5FYzZCXZj0klRL-9bzdGFCsBRnh0xc9X9bhvIVvk9PYPHP7PMB7OYuyOW_CL2JXi-OaSF4tVK4u4QwxQs3Aqkt1AhA8NqUfzxLlpJLE1tW8d4Aheneg3lhV260go9iHdajjgP53o_9VwQXrfaXHqjYYrAOWbKpqa2DfJHX-TLriBRAc2AYW0fxgkuEspM");'></div>
+<div>
+<p class="text-text-dark dark:text-text-light text-base font-medium leading-normal">Como reciclar diferentes tipos de plástico</p>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal">Dica de reciclagem</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 pb-3 rounded-xl border border-[#e0e0e0] dark:border-[#333] p-4 bg-white dark:bg-background-dark shadow-sm hover:shadow-lg transition-shadow">
+<div class="w-full h-40 bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="potes de vidro sendo reutilizados como vasos de planta" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAuvg8CALCXz2qRHCOa-Oc6IjuDzNutIp_uvgsMBwpY8sM9ELtulipm5NUf0POf05ShP7BqMoyF4mtsbtqmx9hqaInIvw82kf6JrKG7DneZLU3Bs-m_ntvPBgg-M4HMAtM5aYgEnemjvYglAgotgKqagVrO1wlr6OY4ZUxNXsH_MvA5cFTt2_nQ_rYLiig34YPyG9J8joPMgx_QnWoMZQn6-ErBE2noyOlN75MSsmMLpeBANrWs1Xn0hNO15-mTofnIA0etKY8JxnA");'></div>
+<div>
+<p class="text-text-dark dark:text-text-light text-base font-medium leading-normal">Ideias para reutilizar potes de vidro</p>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal">Dica de reutilização</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 pb-3 rounded-xl border border-[#e0e0e0] dark:border-[#333] p-4 bg-white dark:bg-background-dark shadow-sm hover:shadow-lg transition-shadow">
+<div class="w-full h-40 bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="pilha de jornais e papéis para reciclagem" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBfG0CAvxXMO2Sav_JhHUllma0mvuul6BxeVxEhVC99jYNCm_wxfv7O-8yE15WhCrYpoH1JF_2vUqg6dKlu4wIQYFER6nLHXzzK1U1EDuR2umYxWigTjpDIjUW6Nbj4RQoO0gPuTNer7HqYViHOusvoBmx8dOcVvnD-DabB_QR0MIc0U-unuGQFXY0ld8gMPxS0kRcwNYF5YPDR0rgoj7tbe1pJigr4FnfBZlNo2Gnaj62obiL6ao4G6LRaPb8-0kNa0Ki5LTRLDno");'></div>
+<div>
+<p class="text-text-dark dark:text-text-light text-base font-medium leading-normal">A forma correta de descartar papel</p>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal">Dica de reciclagem</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 pb-3 rounded-xl border border-[#e0e0e0] dark:border-[#333] p-4 bg-white dark:bg-background-dark shadow-sm hover:shadow-lg transition-shadow">
+<div class="w-full h-40 bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="latinhas de alumínio amassadas" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAEl-f7QmXPQjRZ7xpzae0fZXv6pJdS7Dp05cGrXdvP0Fb7F8QQWTj-yXPeqGKau9UJvmIaaHiwyYSkLl0_xTz2pUrXi4_A-5Yj-Wwc0WiW1QdLzqIlA_nnUZGxykCGzc4IkluYQaN6xXHQN3oVbKGfPxmznz1uiLrjYdnGdL1xzq2qew0Pgq2_AQ_pQJm-Dpin1vBE1SixaFLqBXJrtoALUjbdkqRza_oEH0xhITMhiXSoKoREak7QU3OvflUYUHJboUyynidgT-I");'></div>
+<div>
+<p class="text-text-dark dark:text-text-light text-base font-medium leading-normal">Onde descartar metais</p>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal">Dica de descarte</p>
+</div>
+</div>
+</div>
+<div class="text-center p-8 mt-8 rounded-xl bg-primary/10 dark:bg-primary/20">
+<h2 class="text-text-dark dark:text-text-light text-3xl font-bold leading-tight tracking-[-0.015em]">Faça a Diferença!</h2>
+<p class="text-gray-600 dark:text-gray-300 mt-2 mb-6 max-w-2xl mx-auto">Continue sua jornada de sustentabilidade. Compartilhe seu progresso e inspire outros a se juntarem ao movimento.</p>
+<div class="flex justify-center gap-4">
+<button class="flex min-w-[180px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-6 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] shadow-lg hover:bg-green-600 transition-colors">
+<span class="truncate">Compartilhar Meus Resultados</span>
+</button>
+<button class="flex min-w-[180px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-6 bg-white dark:bg-background-dark text-text-dark dark:text-text-light text-base font-bold leading-normal tracking-[0.015em] border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+<span class="truncate">Aprenda Mais</span>
+</button>
+</div>
+</div>
+</main>
+<footer class="mt-12 border-t border-solid border-b-[#e0e0e0] dark:border-b-[#333] px-10 py-6 text-center text-gray-500 dark:text-gray-400 text-sm">
+<p>© 2024 RecycleApp. Todos os direitos reservados.</p>
+<div class="flex justify-center gap-4 mt-2">
+<a class="hover:text-primary" href="#">Termos de Serviço</a>
+<a class="hover:text-primary" href="#">Política de Privacidade</a>
+</div>
+</footer>
+</div>
+</div>
+</div>
+</div>
+</body></html>
