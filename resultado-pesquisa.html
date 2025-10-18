@@ -1,163 +1,761 @@
 <!DOCTYPE html>
+<html class="light" lang="pt-br">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Resultado da Pesquisa - Seu Impacto Ambiental</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Responsive chart containers */
+        .chart-container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+        }
 
-<html lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>RecycleApp Results</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
-<script>
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          colors: {
-            "primary": "#4CAF50",
-            "background-light": "#F5F5F5",
-            "background-dark": "#102216",
-            "text-dark": "#333333",
-            "text-light": "#F5F5F5",
-            "chart-blue": "#2196F3",
-            "chart-yellow": "#FFC107",
-            "chart-green": "#4CAF50",
-            "chart-gray": "#9E9E9E",
-          },
-          fontFamily: {
-            "display": ["Manrope", "sans-serif"]
-          },
-          borderRadius: {
-            "DEFAULT": "0.5rem",
-            "lg": "1rem",
-            "xl": "1.5rem",
-            "full": "9999px"
-          },
-        },
-      },
-    }
-  </script>
-<style>
-    .material-symbols-outlined {
-      font-variation-settings:
-        'FILL' 0,
-        'wght' 400,
-        'GRAD' 0,
-        'opsz' 24
-    }
-  </style>
+        /* Mobile responsive adjustments */
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 300px;
+            }
+
+            /* Adjust chart title size on mobile */
+            .chart-title {
+                font-size: 12px !important;
+            }
+
+            /* Reduce padding on mobile for charts */
+            .chart-wrapper {
+                padding: 0.5rem !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .chart-container {
+                height: 250px;
+            }
+
+            /* Even smaller titles on very small screens */
+            .chart-title {
+                font-size: 10px !important;
+            }
+        }
+
+        /* Ensure canvas elements are responsive */
+        canvas {
+            max-width: 100% !important;
+            height: auto !important;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#4CAF50",
+                "secondary": "#2196F3",
+                "accent": "#FF9800",
+                "success": "#10B981",
+                "warning": "#F59E0B",
+                "error": "#EF4444",
+                "background-light": "#F5F5F5",
+                "background-dark": "#1a1a1a",
+                "text-light": "#333333",
+                "text-dark": "#F5F5F5"
+              },
+              fontFamily: {
+                "display": ["Manrope", "sans-serif"]
+              },
+              borderRadius: {
+                "DEFAULT": "0.5rem",
+                "lg": "1rem",
+                "xl": "1.5rem",
+                "full": "9999px"
+              },
+            },
+          }
+        }
+      </script>
 </head>
-<body class="bg-background-light dark:bg-background-dark font-display text-text-dark dark:text-text-light">
-<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
-<div class="layout-container flex h-full grow flex-col">
-<div class="flex flex-1 justify-center py-5">
-<div class="layout-content-container flex flex-col max-w-[960px] flex-1">
-<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e0e0e0] dark:border-b-[#333] px-10 py-3">
-<div class="flex items-center gap-4 text-text-dark dark:text-text-light">
-<div class="size-6 text-primary">
-<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-<path d="M36.7273 44C33.9891 44 31.6043 39.8386 30.3636 33.69C29.123 39.8386 26.7382 44 24 44C21.2618 44 18.877 39.8386 17.6364 33.69C16.3957 39.8386 14.0109 44 11.2727 44C7.25611 44 4 35.0457 4 24C4 12.9543 7.25611 4 11.2727 4C14.0109 4 16.3957 8.16144 17.6364 14.31C18.877 8.16144 21.2618 4 24 4C26.7382 4 29.123 8.16144 30.3636 14.31C31.6043 8.16144 33.9891 4 36.7273 4C40.7439 4 44 12.9543 44 24C44 35.0457 40.7439 44 36.7273 44Z" fill="currentColor"></path>
-</svg>
-</div>
-<h2 class="text-text-dark dark:text-text-light text-xl font-bold leading-tight tracking-[-0.015em]">RecycleApp</h2>
-</div>
-<div class="flex gap-4">
-<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em]">
-<span class="truncate">Compartilhar Meus Resultados</span>
-</button>
-<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-primary/20 dark:bg-primary/30 text-text-dark dark:text-text-light text-sm font-bold leading-normal tracking-[0.015em]">
-<span class="truncate">Aprenda Mais</span>
-</button>
-</div>
-</header>
-<main class="flex-1 px-4 sm:px-6 lg:px-8">
-<div class="flex flex-wrap justify-between gap-3 p-4 mt-8">
-<div class="flex min-w-72 flex-col gap-3">
-<p class="text-text-dark dark:text-text-light text-4xl font-black leading-tight tracking-[-0.033em]">Seu Impacto de Reciclagem Mensal</p>
-<p class="text-gray-500 dark:text-gray-400 text-lg font-normal leading-normal">Você reciclou o equivalente a 3 árvores este mês!</p>
-</div>
-</div>
-<div class="flex flex-wrap gap-4 px-4 py-6">
-<div class="flex min-w-72 flex-1 flex-col gap-4 rounded-xl border border-[#e0e0e0] dark:border-[#333] p-6 bg-white dark:bg-background-dark shadow-sm">
-<p class="text-text-dark dark:text-text-light text-lg font-medium leading-normal">Seu Consumo em Números</p>
-<div class="flex items-baseline gap-2">
-<p class="text-text-dark dark:text-text-light tracking-light text-4xl font-bold leading-tight truncate">40kg</p>
-<p class="text-primary text-base font-medium leading-normal">+5% vs. Mês Passado</p>
-</div>
-<div class="grid min-h-[220px] grid-flow-col gap-6 grid-rows-[1fr_auto] items-end justify-items-center px-3 pt-4">
-<div class="w-full flex flex-col justify-end items-center group">
-<div class="bg-chart-yellow h-[60%] w-full rounded-t-lg transition-all duration-300 group-hover:bg-yellow-400"></div>
-<p class="text-gray-500 dark:text-gray-400 text-[13px] font-bold leading-normal tracking-[0.015em] mt-2">Plástico</p>
-</div>
-<div class="w-full flex flex-col justify-end items-center group">
-<div class="bg-chart-blue h-[40%] w-full rounded-t-lg transition-all duration-300 group-hover:bg-blue-400"></div>
-<p class="text-gray-500 dark:text-gray-400 text-[13px] font-bold leading-normal tracking-[0.015em] mt-2">Papel</p>
-</div>
-<div class="w-full flex flex-col justify-end items-center group">
-<div class="bg-chart-green h-[80%] w-full rounded-t-lg transition-all duration-300 group-hover:bg-green-400"></div>
-<p class="text-gray-500 dark:text-gray-400 text-[13px] font-bold leading-normal tracking-[0.015em] mt-2">Vidro</p>
-</div>
-<div class="w-full flex flex-col justify-end items-center group">
-<div class="bg-chart-gray h-[30%] w-full rounded-t-lg transition-all duration-300 group-hover:bg-gray-400"></div>
-<p class="text-gray-500 dark:text-gray-400 text-[13px] font-bold leading-normal tracking-[0.015em] mt-2">Metal</p>
-</div>
-</div>
-</div>
-</div>
-<h2 class="text-text-dark dark:text-text-light text-2xl font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Dicas Para Você</h2>
-<div class="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4 p-4">
-<div class="flex flex-col gap-3 pb-3 rounded-xl border border-[#e0e0e0] dark:border-[#333] p-4 bg-white dark:bg-background-dark shadow-sm hover:shadow-lg transition-shadow">
-<div class="w-full h-40 bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="ilustração de vários tipos de plástico" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC2xxEnJkUyGek-Z-25ZNwGC7nEAkKCBG5IvfqzYSpRV-WV4smDh4QY_RKHkPCPvXjQQcg10AHuxc7ZlH5FYzZCXZj0klRL-9bzdGFCsBRnh0xc9X9bhvIVvk9PYPHP7PMB7OYuyOW_CL2JXi-OaSF4tVK4u4QwxQs3Aqkt1AhA8NqUfzxLlpJLE1tW8d4Aheneg3lhV260go9iHdajjgP53o_9VwQXrfaXHqjYYrAOWbKpqa2DfJHX-TLriBRAc2AYW0fxgkuEspM");'></div>
-<div>
-<p class="text-text-dark dark:text-text-light text-base font-medium leading-normal">Como reciclar diferentes tipos de plástico</p>
-<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal">Dica de reciclagem</p>
-</div>
-</div>
-<div class="flex flex-col gap-3 pb-3 rounded-xl border border-[#e0e0e0] dark:border-[#333] p-4 bg-white dark:bg-background-dark shadow-sm hover:shadow-lg transition-shadow">
-<div class="w-full h-40 bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="potes de vidro sendo reutilizados como vasos de planta" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAuvg8CALCXz2qRHCOa-Oc6IjuDzNutIp_uvgsMBwpY8sM9ELtulipm5NUf0POf05ShP7BqMoyF4mtsbtqmx9hqaInIvw82kf6JrKG7DneZLU3Bs-m_ntvPBgg-M4HMAtM5aYgEnemjvYglAgotgKqagVrO1wlr6OY4ZUxNXsH_MvA5cFTt2_nQ_rYLiig34YPyG9J8joPMgx_QnWoMZQn6-ErBE2noyOlN75MSsmMLpeBANrWs1Xn0hNO15-mTofnIA0etKY8JxnA");'></div>
-<div>
-<p class="text-text-dark dark:text-text-light text-base font-medium leading-normal">Ideias para reutilizar potes de vidro</p>
-<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal">Dica de reutilização</p>
-</div>
-</div>
-<div class="flex flex-col gap-3 pb-3 rounded-xl border border-[#e0e0e0] dark:border-[#333] p-4 bg-white dark:bg-background-dark shadow-sm hover:shadow-lg transition-shadow">
-<div class="w-full h-40 bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="pilha de jornais e papéis para reciclagem" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBfG0CAvxXMO2Sav_JhHUllma0mvuul6BxeVxEhVC99jYNCm_wxfv7O-8yE15WhCrYpoH1JF_2vUqg6dKlu4wIQYFER6nLHXzzK1U1EDuR2umYxWigTjpDIjUW6Nbj4RQoO0gPuTNer7HqYViHOusvoBmx8dOcVvnD-DabB_QR0MIc0U-unuGQFXY0ld8gMPxS0kRcwNYF5YPDR0rgoj7tbe1pJigr4FnfBZlNo2Gnaj62obiL6ao4G6LRaPb8-0kNa0Ki5LTRLDno");'></div>
-<div>
-<p class="text-text-dark dark:text-text-light text-base font-medium leading-normal">A forma correta de descartar papel</p>
-<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal">Dica de reciclagem</p>
-</div>
-</div>
-<div class="flex flex-col gap-3 pb-3 rounded-xl border border-[#e0e0e0] dark:border-[#333] p-4 bg-white dark:bg-background-dark shadow-sm hover:shadow-lg transition-shadow">
-<div class="w-full h-40 bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="latinhas de alumínio amassadas" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAEl-f7QmXPQjRZ7xpzae0fZXv6pJdS7Dp05cGrXdvP0Fb7F8QQWTj-yXPeqGKau9UJvmIaaHiwyYSkLl0_xTz2pUrXi4_A-5Yj-Wwc0WiW1QdLzqIlA_nnUZGxykCGzc4IkluYQaN6xXHQN3oVbKGfPxmznz1uiLrjYdnGdL1xzq2qew0Pgq2_AQ_pQJm-Dpin1vBE1SixaFLqBXJrtoALUjbdkqRza_oEH0xhITMhiXSoKoREak7QU3OvflUYUHJboUyynidgT-I");'></div>
-<div>
-<p class="text-text-dark dark:text-text-light text-base font-medium leading-normal">Onde descartar metais</p>
-<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal">Dica de descarte</p>
-</div>
-</div>
-</div>
-<div class="text-center p-8 mt-8 rounded-xl bg-primary/10 dark:bg-primary/20">
-<h2 class="text-text-dark dark:text-text-light text-3xl font-bold leading-tight tracking-[-0.015em]">Faça a Diferença!</h2>
-<p class="text-gray-600 dark:text-gray-300 mt-2 mb-6 max-w-2xl mx-auto">Continue sua jornada de sustentabilidade. Compartilhe seu progresso e inspire outros a se juntarem ao movimento.</p>
-<div class="flex justify-center gap-4">
-<button class="flex min-w-[180px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-6 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] shadow-lg hover:bg-green-600 transition-colors">
-<span class="truncate">Compartilhar Meus Resultados</span>
-</button>
-<button class="flex min-w-[180px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-6 bg-white dark:bg-background-dark text-text-dark dark:text-text-light text-base font-bold leading-normal tracking-[0.015em] border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-<span class="truncate">Aprenda Mais</span>
-</button>
-</div>
-</div>
-</main>
-<footer class="mt-12 border-t border-solid border-b-[#e0e0e0] dark:border-b-[#333] px-10 py-6 text-center text-gray-500 dark:text-gray-400 text-sm">
-<p>© 2024 RecycleApp. Todos os direitos reservados.</p>
-<div class="flex justify-center gap-4 mt-2">
-<a class="hover:text-primary" href="#">Termos de Serviço</a>
-<a class="hover:text-primary" href="#">Política de Privacidade</a>
-</div>
-</footer>
-</div>
-</div>
-</div>
-</div>
-</body></html>
+<body class="bg-background-light dark:bg-background-dark font-display">
+    <div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <div class="px-4 md:px-20 lg:px-40 flex flex-1 justify-center py-5">
+                <div class="layout-content-container flex flex-col max-w-[1200px] flex-1">
+
+                    <!-- Header Section -->
+                    <div class="text-center mb-8">
+                        <h1 class="text-4xl font-black leading-tight tracking-[-0.033em] text-text-light dark:text-text-dark mb-4">
+                            Seu Impacto Ambiental
+                        </h1>
+                        <p class="text-lg text-gray-600 dark:text-gray-300">
+                            Veja como seu consumo afeta o planeta e descubra seu potencial de reciclagem
+                        </p>
+                    </div>
+
+                    <!-- Loading State -->
+                    <div id="loading-state" class="flex flex-col items-center justify-center p-8">
+                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
+                        <p class="text-text-light dark:text-text-dark">Calculando seu impacto...</p>
+                    </div>
+
+                    <!-- Results Container (Initially Hidden) -->
+                    <div id="results-container" class="hidden space-y-6">
+
+                        <!-- Summary Cards -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="summary-cards">
+                            <!-- Cards will be populated by JavaScript -->
+                        </div>
+
+                        <!-- Detailed Breakdown -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
+                            <h3 class="text-xl font-bold text-text-light dark:text-text-dark mb-4">
+                                Detalhamento do Seu Consumo
+                            </h3>
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <!-- Material Consumption Chart -->
+                                <div class="chart-wrapper">
+                                    <h4 class="text-lg font-semibold text-text-light dark:text-text-dark mb-3">
+                                        Consumo por Material
+                                    </h4>
+                                    <div class="chart-container">
+                                        <canvas id="consumption-chart"></canvas>
+                                    </div>
+                                </div>
+
+                                <!-- Recycling Potential Chart -->
+                                <div class="chart-wrapper">
+                                    <h4 class="text-lg font-semibold text-text-light dark:text-text-dark mb-3">
+                                        Potencial de Reciclagem
+                                    </h4>
+                                    <div class="chart-container">
+                                        <canvas id="recycling-chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Environmental Impact -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
+                            <h3 class="text-xl font-bold text-text-light dark:text-text-dark mb-4">
+                                Impacto Ambiental
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                                    <div class="text-2xl font-bold text-green-600 dark:text-green-400" id="co2-saved">0 kg</div>
+                                    <div class="text-sm text-gray-600 dark:text-gray-300">CO₂ Economizado/ano</div>
+                                </div>
+                                <div class="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                                    <div class="text-2xl font-bold text-blue-600 dark:text-blue-400" id="water-saved">0 L</div>
+                                    <div class="text-sm text-gray-600 dark:text-gray-300">Água Economizada/ano</div>
+                                </div>
+                                <div class="text-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+                                    <div class="text-2xl font-bold text-purple-600 dark:text-purple-400" id="energy-saved">0 kWh</div>
+                                    <div class="text-sm text-gray-600 dark:text-gray-300">Energia Economizada/ano</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recommendations -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
+                            <h3 class="text-xl font-bold text-text-light dark:text-text-dark mb-4">
+                                Recomendações para Você
+                            </h3>
+                            <div id="recommendations" class="space-y-3">
+                                <!-- Recommendations will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                            <button onclick="window.print()" class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-green-600 transition-colors flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined">print</span>
+                                Imprimir Resultado
+                            </button>
+                            <button onclick="window.location.href='research-form.html'" class="px-6 py-3 bg-secondary text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined">refresh</span>
+                                Nova Pesquisa
+                            </button>
+                            <button onclick="shareResults()" class="px-6 py-3 bg-accent text-white rounded-lg hover:bg-orange-600 transition-colors flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined">share</span>
+                                Compartilhar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Error State -->
+                    <div id="error-state" class="hidden flex-col items-center justify-center p-8 bg-red-50 dark:bg-red-900/20 rounded-xl">
+                        <span class="material-symbols-outlined text-red-500 text-6xl mb-4">error</span>
+                        <h3 class="text-xl font-bold text-red-600 dark:text-red-400 mb-2">Erro ao Calcular Resultados</h3>
+                        <p class="text-red-600 dark:text-red-300 text-center mb-4">
+                            Não foi possível processar seus dados. Verifique se todos os campos foram preenchidos corretamente.
+                        </p>
+                        <button onclick="window.location.href='research-form.html'" class="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+                            Voltar ao Formulário
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Consumption rates, recycling rates, and emission factors
+        const MATERIAL_DATA = {
+            'aluminio': {
+                name: 'Alumínio',
+                weight_per_unit: 0.015, // kg per can
+                recycling_rate: 0.95, // 95% recycling rate
+                co2_factor: 12.5, // kg CO2 per kg recycled
+                water_factor: 15, // liters of water saved per kg
+                energy_factor: 140, // kWh saved per kg
+                color: '#10B981'
+            },
+            'aço': {
+                name: 'Aço',
+                weight_per_unit: 0.050, // kg per can
+                recycling_rate: 0.70, // 70% recycling rate
+                co2_factor: 1.5, // kg CO2 per kg recycled
+                water_factor: 25, // liters of water saved per kg
+                energy_factor: 5, // kWh saved per kg
+                color: '#6B7280'
+            },
+            'pet': {
+                name: 'PET',
+                weight_per_unit: 0.025, // kg per bottle
+                recycling_rate: 0.30, // 30% recycling rate
+                co2_factor: 1.2, // kg CO2 per kg recycled
+                water_factor: 35, // liters of water saved per kg
+                energy_factor: 50, // kWh saved per kg
+                color: '#3B82F6'
+            },
+            'papelao': {
+                name: 'Papelão',
+                weight_per_unit: 0.300, // kg per box
+                recycling_rate: 0.85, // 85% recycling rate
+                co2_factor: 0.8, // kg CO2 per kg recycled
+                water_factor: 50, // liters of water saved per kg
+                energy_factor: 15, // kWh saved per kg
+                color: '#F59E0B'
+            },
+            'plastico': {
+                name: 'Plástico Misto',
+                weight_per_unit: 0.020, // kg per container
+                recycling_rate: 0.25, // 25% recycling rate
+                co2_factor: 1.0, // kg CO2 per kg recycled
+                water_factor: 20, // liters of water saved per kg
+                energy_factor: 30, // kWh saved per kg
+                color: '#8B5CF6'
+            }
+        };
+
+        // Get URL parameters
+        function getUrlParameters() {
+            const params = new URLSearchParams(window.location.search);
+            const data = {};
+
+            // Personal information
+            data.idade = params.get('idade') || '';
+            data.cidade = params.get('cidade') || '';
+            data.estado = params.get('estado') || '';
+            data.renda = params.get('renda') || '';
+            data.moradia = params.get('moradia') || '';
+
+            // Household composition
+            data.adultos = parseInt(params.get('adultos')) || 1;
+            data.criancas_1_6 = parseInt(params.get('criancas-1-6')) || 0;
+            data.criancas_7_12 = parseInt(params.get('criancas-7-12')) || 0;
+            data.criancas_12 = parseInt(params.get('criancas-12+')) || 0;
+
+            // Consumption data
+            data.latinhas_aluminio = parseInt(params.get('latinhas-aluminio')) || 0;
+            data.latas_milho = parseInt(params.get('latas-milho')) || 0;
+            data.latas_leite = parseInt(params.get('latas-leite')) || 0;
+            data.garrafas_pet_grandes = parseInt(params.get('garrafas-pet-grandes')) || 0;
+            data.garrafas_pet_pequenas = parseInt(params.get('garrafas-pet-pequenas')) || 0;
+            data.caixas_suco_leite = parseInt(params.get('caixas-suco-leite')) || 0;
+
+            // Cleaning products
+            data.usa_sabao_liquido = params.get('usa-sabao-liquido') === 'sim';
+            data.quantidade_sabao_liquido = parseInt(params.get('quantidade-sabao-liquido')) || 0;
+            data.usa_amaciante = params.get('usa-amaciante') === 'sim';
+            data.quantidade_amaciante = parseInt(params.get('quantidade-amaciante')) || 0;
+
+            // Cardboard disposal
+            data.descarta_papelao = params.get('descarta-papelao') || params.get('descarta-papelao-frequencia') || 'nao';
+
+            return data;
+        }
+
+        // Calculate recycling metrics
+        function calculateRecyclingMetrics(data) {
+            const metrics = {
+                total_weight: 0,
+                total_recyclable: 0,
+                total_recycled: 0,
+                materials: {},
+                environmental_impact: {
+                    co2_saved: 0,
+                    co2_not_recycled: 0,
+                    water_saved: 0,
+                    energy_saved: 0
+                }
+            };
+
+            // Calculate aluminum cans
+            if (data.latinhas_aluminio > 0) {
+                const weight = data.latinhas_aluminio * MATERIAL_DATA.aluminio.weight_per_unit;
+                const recycled = weight * MATERIAL_DATA.aluminio.recycling_rate;
+
+                metrics.materials.aluminio = {
+                    consumed: data.latinhas_aluminio,
+                    weight: weight,
+                    recycled: recycled,
+                    recycling_rate: MATERIAL_DATA.aluminio.recycling_rate
+                };
+
+                metrics.total_weight += weight;
+                metrics.total_recycled += recycled;
+                const notRecycled = weight - recycled;
+                metrics.environmental_impact.co2_saved += recycled * MATERIAL_DATA.aluminio.co2_factor;
+                metrics.environmental_impact.co2_not_recycled += notRecycled * MATERIAL_DATA.aluminio.co2_factor;
+                metrics.environmental_impact.water_saved += recycled * MATERIAL_DATA.aluminio.water_factor;
+                metrics.environmental_impact.energy_saved += recycled * MATERIAL_DATA.aluminio.energy_factor;
+            }
+
+            // Calculate steel cans (milho/ervilha)
+            if (data.latas_milho > 0) {
+                const weight = data.latas_milho * MATERIAL_DATA.aço.weight_per_unit;
+                const recycled = weight * MATERIAL_DATA.aço.recycling_rate;
+
+                metrics.materials.aço = {
+                    consumed: data.latas_milho,
+                    weight: weight,
+                    recycled: recycled,
+                    recycling_rate: MATERIAL_DATA.aço.recycling_rate
+                };
+
+                metrics.total_weight += weight;
+                metrics.total_recycled += recycled;
+                const notRecycled = weight - recycled;
+                metrics.environmental_impact.co2_saved += recycled * MATERIAL_DATA.aço.co2_factor;
+                metrics.environmental_impact.co2_not_recycled += notRecycled * MATERIAL_DATA.aço.co2_factor;
+                metrics.environmental_impact.water_saved += recycled * MATERIAL_DATA.aço.water_factor;
+                metrics.environmental_impact.energy_saved += recycled * MATERIAL_DATA.aço.energy_factor;
+            }
+
+            // Calculate milk powder cans
+            if (data.latas_leite > 0) {
+                const weight = data.latas_leite * MATERIAL_DATA.aço.weight_per_unit;
+                const recycled = weight * MATERIAL_DATA.aço.recycling_rate;
+
+                if (!metrics.materials.aço) {
+                    metrics.materials.aço = { consumed: 0, weight: 0, recycled: 0, recycling_rate: MATERIAL_DATA.aço.recycling_rate };
+                }
+
+                metrics.materials.aço.consumed += data.latas_leite;
+                metrics.materials.aço.weight += weight;
+                metrics.materials.aço.recycled += recycled;
+
+                metrics.total_weight += weight;
+                metrics.total_recycled += recycled;
+                const notRecycled = weight - recycled;
+                metrics.environmental_impact.co2_saved += recycled * MATERIAL_DATA.aço.co2_factor;
+                metrics.environmental_impact.co2_not_recycled += notRecycled * MATERIAL_DATA.aço.co2_factor;
+                metrics.environmental_impact.water_saved += recycled * MATERIAL_DATA.aço.water_factor;
+                metrics.environmental_impact.energy_saved += recycled * MATERIAL_DATA.aço.energy_factor;
+            }
+
+            // Calculate PET bottles
+            const totalPetBottles = data.garrafas_pet_grandes + data.garrafas_pet_pequenas;
+            if (totalPetBottles > 0) {
+                const weight = totalPetBottles * MATERIAL_DATA.pet.weight_per_unit;
+                const recycled = weight * MATERIAL_DATA.pet.recycling_rate;
+
+                metrics.materials.pet = {
+                    consumed: totalPetBottles,
+                    weight: weight,
+                    recycled: recycled,
+                    recycling_rate: MATERIAL_DATA.pet.recycling_rate
+                };
+
+                metrics.total_weight += weight;
+                metrics.total_recycled += recycled;
+                const notRecycled = weight - recycled;
+                metrics.environmental_impact.co2_saved += recycled * MATERIAL_DATA.pet.co2_factor;
+                metrics.environmental_impact.co2_not_recycled += notRecycled * MATERIAL_DATA.pet.co2_factor;
+                metrics.environmental_impact.water_saved += recycled * MATERIAL_DATA.pet.water_factor;
+                metrics.environmental_impact.energy_saved += recycled * MATERIAL_DATA.pet.energy_factor;
+            }
+
+            // Calculate juice/milk cartons
+            if (data.caixas_suco_leite > 0) {
+                const weight = data.caixas_suco_leite * MATERIAL_DATA.plastico.weight_per_unit;
+                const recycled = weight * MATERIAL_DATA.plastico.recycling_rate;
+
+                metrics.materials.plastico = {
+                    consumed: data.caixas_suco_leite,
+                    weight: weight,
+                    recycled: recycled,
+                    recycling_rate: MATERIAL_DATA.plastico.recycling_rate
+                };
+
+                metrics.total_weight += weight;
+                metrics.total_recycled += recycled;
+                const notRecycled = weight - recycled;
+                metrics.environmental_impact.co2_saved += recycled * MATERIAL_DATA.plastico.co2_factor;
+                metrics.environmental_impact.co2_not_recycled += notRecycled * MATERIAL_DATA.plastico.co2_factor;
+                metrics.environmental_impact.water_saved += recycled * MATERIAL_DATA.plastico.water_factor;
+                metrics.environmental_impact.energy_saved += recycled * MATERIAL_DATA.plastico.energy_factor;
+            }
+
+            // Calculate cardboard disposal
+            let cardboardBoxes = 0;
+            if (data.descarta_papelao === '1-mensal') cardboardBoxes = 1;
+            else if (data.descarta_papelao === '2-5-mensal') cardboardBoxes = 3.5;
+            else if (data.descarta_papelao === '5+-mensal') cardboardBoxes = 6;
+
+            if (cardboardBoxes > 0) {
+                const weight = cardboardBoxes * MATERIAL_DATA.papelao.weight_per_unit;
+                const recycled = weight * MATERIAL_DATA.papelao.recycling_rate;
+
+                metrics.materials.papelao = {
+                    consumed: cardboardBoxes,
+                    weight: weight,
+                    recycled: recycled,
+                    recycling_rate: MATERIAL_DATA.papelao.recycling_rate
+                };
+
+                metrics.total_weight += weight;
+                metrics.total_recycled += recycled;
+                const notRecycled = weight - recycled;
+                metrics.environmental_impact.co2_saved += recycled * MATERIAL_DATA.papelao.co2_factor;
+                metrics.environmental_impact.co2_not_recycled += notRecycled * MATERIAL_DATA.papelao.co2_factor;
+                metrics.environmental_impact.water_saved += recycled * MATERIAL_DATA.papelao.water_factor;
+                metrics.environmental_impact.energy_saved += recycled * MATERIAL_DATA.papelao.energy_factor;
+            }
+
+            // Calculate total recyclable (assuming 100% of consumed materials are recyclable)
+            metrics.total_recyclable = metrics.total_weight;
+
+            return metrics;
+        }
+
+        // Create summary cards
+        function createSummaryCards(metrics) {
+            const container = document.getElementById('summary-cards');
+
+            const cards = [
+                {
+                    title: 'Peso Total Consumido',
+                    value: `${(metrics.total_weight * 12).toFixed(1)} kg`,
+                    subtitle: 'por ano',
+                    icon: 'scale',
+                    color: 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
+                },
+                {
+                    title: 'CO₂ Consumido se Não Reciclado',
+                    value: `${(metrics.environmental_impact.co2_not_recycled * 12).toFixed(1)} kg`,
+                    subtitle: 'por ano',
+                    icon: 'cloud',
+                    color: 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400'
+                },
+                {
+                    title: 'Materiais Diferentes',
+                    value: `${Object.keys(metrics.materials).length}`,
+                    subtitle: 'tipos identificados',
+                    icon: 'category',
+                    color: 'bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400'
+                }
+            ];
+
+            container.innerHTML = cards.map(card => `
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">${card.title}</p>
+                            <p class="text-2xl font-bold text-text-light dark:text-text-dark">${card.value}</p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">${card.subtitle}</p>
+                        </div>
+                        <div class="w-12 h-12 rounded-full ${card.color} flex items-center justify-center">
+                            <span class="material-symbols-outlined text-2xl">${card.icon}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Create consumption chart
+        function createConsumptionChart(metrics) {
+            const ctx = document.getElementById('consumption-chart').getContext('2d');
+
+            const materialLabels = Object.keys(metrics.materials).map(key => MATERIAL_DATA[key].name);
+            const materialWeights = Object.keys(metrics.materials).map(key => metrics.materials[key].weight * 12);
+
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: materialLabels,
+                    datasets: [{
+                        data: materialWeights,
+                        backgroundColor: Object.keys(metrics.materials).map(key => MATERIAL_DATA[key].color),
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: 'rgb(107, 114, 128)',
+                                padding: window.innerWidth < 768 ? 10 : 20,
+                                usePointStyle: true,
+                                font: {
+                                    size: window.innerWidth < 768 ? 10 : 12
+                                }
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Distribuição do Consumo por Material (kg/ano)',
+                            color: 'rgb(17, 24, 39)',
+                            font: {
+                                size: window.innerWidth < 768 ? 12 : 14,
+                                weight: 'bold'
+                            },
+                            padding: window.innerWidth < 768 ? 10 : 20
+                        }
+                    }
+                }
+            });
+        }
+
+        // Create recycling potential chart
+        function createRecyclingChart(metrics) {
+            const ctx = document.getElementById('recycling-chart').getContext('2d');
+
+            const materialLabels = Object.keys(metrics.materials).map(key => MATERIAL_DATA[key].name);
+            const recycledWeights = Object.keys(metrics.materials).map(key => metrics.materials[key].recycled * 12);
+            const recyclableWeights = Object.keys(metrics.materials).map(key => metrics.materials[key].weight * 12);
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: materialLabels,
+                    datasets: [
+                        {
+                            label: 'Total em kg',
+                            data: recyclableWeights.map((weight, index) => weight - recycledWeights[index]),
+                            backgroundColor: 'rgba(34, 197, 94, 0.8)',
+                            borderColor: 'rgb(34, 197, 94)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: window.innerWidth < 768 ? 'bottom' : 'top',
+                            labels: {
+                                color: 'rgb(107, 114, 128)',
+                                padding: window.innerWidth < 768 ? 10 : 20,
+                                font: {
+                                    size: window.innerWidth < 768 ? 10 : 12
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: 'rgb(107, 114, 128)',
+                                font: {
+                                    size: window.innerWidth < 768 ? 9 : 11
+                                },
+                                maxRotation: window.innerWidth < 768 ? 45 : 0,
+                                minRotation: window.innerWidth < 768 ? 45 : 0
+                                },
+                            grid: {
+                                color: 'rgba(107, 114, 128, 0.1)'
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                color: 'rgb(107, 114, 128)',
+                                font: {
+                                    size: window.innerWidth < 768 ? 9 : 11
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(107, 114, 128, 0.1)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update environmental impact display
+        function updateEnvironmentalImpact(metrics) {
+            document.getElementById('co2-saved').textContent = `${(metrics.environmental_impact.co2_saved * 12).toFixed(1)} kg`;
+            document.getElementById('water-saved').textContent = `${Math.round(metrics.environmental_impact.water_saved * 12)} L`;
+            document.getElementById('energy-saved').textContent = `${Math.round(metrics.environmental_impact.energy_saved * 12)} kWh`;
+        }
+
+        // Generate recommendations
+        function generateRecommendations(metrics, data) {
+            const recommendations = [];
+            const container = document.getElementById('recommendations');
+
+            // Check recycling rate
+            const recyclingRate = (metrics.total_recycled / metrics.total_recyclable) * 100 || 0;
+            if (recyclingRate < 50) {
+                recommendations.push({
+                    type: 'warning',
+                    text: 'Sua taxa de reciclagem está abaixo de 50%. Considere implementar um sistema de coleta seletiva em casa.',
+                    icon: 'warning'
+                });
+            } else if (recyclingRate > 80) {
+                recommendations.push({
+                    type: 'success',
+                    text: 'Parabéns! Você tem uma excelente taxa de reciclagem. Continue assim!',
+                    icon: 'celebration'
+                });
+            }
+
+            // Check specific materials
+            if (data.latinhas_aluminio > 20) {
+                recommendations.push({
+                    type: 'info',
+                    text: `Você consome ${data.latinhas_aluminio * 12} latinhas de alumínio por ano. Considere comprar bebidas em embalagens retornáveis.`,
+                    icon: 'info'
+                });
+            }
+
+            if (data.garrafas_pet_grandes + data.garrafas_pet_pequenas > 30) {
+                recommendations.push({
+                    type: 'info',
+                    text: `Você consome ${(data.garrafas_pet_grandes + data.garrafas_pet_pequenas) * 12} garrafas PET por ano. Que tal usar uma garrafa reutilizável?`,
+                    icon: 'water_drop'
+                });
+            }
+
+            if (data.descarta_papelao === 'nao' && metrics.total_weight > 0) {
+                recommendations.push({
+                    type: 'info',
+                    text: 'Você não descarta papelão regularmente, mas identificamos outros materiais recicláveis no seu consumo.',
+                    icon: 'lightbulb'
+                });
+            }
+
+            // General recommendations
+            if (Object.keys(metrics.materials).length >= 3) {
+                recommendations.push({
+                    type: 'success',
+                    text: 'Você consome diversos tipos de materiais recicláveis. Ótimo para participar de programas de coleta seletiva!',
+                    icon: 'eco'
+                });
+            }
+
+            if (recommendations.length === 0) {
+                recommendations.push({
+                    type: 'success',
+                    text: 'Continue mantendo seus hábitos sustentáveis! Você está contribuindo para um planeta melhor.',
+                    icon: 'thumb_up'
+                });
+            }
+
+            container.innerHTML = recommendations.map(rec => `
+                <div class="flex items-start gap-3 p-3 rounded-lg border-l-4 ${
+                    rec.type === 'warning' ? 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-400' :
+                    rec.type === 'success' ? 'bg-green-50 dark:bg-green-900/20 border-green-400' :
+                    'bg-blue-50 dark:bg-blue-900/20 border-blue-400'
+                }">
+                    <span class="material-symbols-outlined text-lg ${
+                        rec.type === 'warning' ? 'text-yellow-600' :
+                        rec.type === 'success' ? 'text-green-600' :
+                        'text-blue-600'
+                    }">${rec.icon}</span>
+                    <p class="text-sm text-text-light dark:text-text-dark">${rec.text}</p>
+                </div>
+            `).join('');
+        }
+
+        // Share results function
+        function shareResults() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Meu Impacto Ambiental',
+                    text: 'Veja como meu consumo afeta o planeta! Calcule o seu também.',
+                    url: window.location.href
+                });
+            } else {
+                // Fallback for browsers that don't support Web Share API
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    alert('Link copiado para a área de transferência!');
+                });
+            }
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                const formData = getUrlParameters();
+
+                // Check if we have valid data
+                if (!formData.idade && !formData.cidade) {
+                    throw new Error('Dados inválidos');
+                }
+
+                const metrics = calculateRecyclingMetrics(formData);
+
+                // Hide loading state and show results
+                document.getElementById('loading-state').classList.add('hidden');
+                document.getElementById('results-container').classList.remove('hidden');
+
+                // Create visualizations
+                createSummaryCards(metrics);
+                createConsumptionChart(metrics);
+                createRecyclingChart(metrics);
+                updateEnvironmentalImpact(metrics);
+                generateRecommendations(metrics, formData);
+
+                // Handle window resize for responsive charts
+                let resizeTimeout;
+                window.addEventListener('resize', function() {
+                    clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(function() {
+                        // Destroy existing charts
+                        const consumptionChart = Chart.getChart('consumption-chart');
+                        const recyclingChart = Chart.getChart('recycling-chart');
+
+                        if (consumptionChart) {
+                            consumptionChart.destroy();
+                        }
+                        if (recyclingChart) {
+                            recyclingChart.destroy();
+                        }
+
+                        // Recreate charts with new dimensions
+                        createConsumptionChart(metrics);
+                        createRecyclingChart(metrics);
+                    }, 250); // Debounce resize events
+                });
+
+            } catch (error) {
+                console.error('Erro ao processar dados:', error);
+                document.getElementById('loading-state').classList.add('hidden');
+                document.getElementById('error-state').classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
