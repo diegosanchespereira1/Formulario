@@ -327,7 +327,7 @@ document.getElementById('recycling-form').addEventListener('submit', async funct
     }
 
     // Check radio button groups
-    const radioGroups = ['renda', 'moradia', 'usa-sabao-liquido', 'usa-amaciante', 'descarta-papelao'];
+    const radioGroups = ['renda', 'moradia', 'usa-sabao-liquido', 'usa-amaciante'];
     for (const groupName of radioGroups) {
         const checkedRadio = this.querySelector(`input[name="${groupName}"]:checked`);
         if (!checkedRadio) {
@@ -343,6 +343,25 @@ document.getElementById('recycling-form').addEventListener('submit', async funct
             const groupDiv = checkedRadio.closest('div');
             if (groupDiv) groupDiv.classList.remove('border-red-500', 'border', 'rounded-lg', 'p-2');
         }
+    }
+
+    // Special validation for cardboard disposal - at least one option must be selected
+    const cardboardOptions = ['descarta-papelao-frequencia', 'descarta-papelao'];
+    const hasCardboardSelection = cardboardOptions.some(optionName =>
+        this.querySelector(`input[name="${optionName}"]:checked`)
+    );
+    if (!hasCardboardSelection) {
+        // Find the cardboard disposal section to highlight
+        const cardboardSection = this.querySelector('.space-y-3');
+        if (cardboardSection) {
+            cardboardSection.classList.add('border-red-500', 'border', 'rounded-lg', 'p-2');
+            if (!firstInvalidField) firstInvalidField = cardboardSection.querySelector('input');
+        }
+        isValid = false;
+    } else {
+        // Remove error styling
+        const cardboardSection = this.querySelector('.space-y-3');
+        if (cardboardSection) cardboardSection.classList.remove('border-red-500', 'border', 'rounded-lg', 'p-2');
     }
 
     if (!isValid) {
