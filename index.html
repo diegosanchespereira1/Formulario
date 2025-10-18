@@ -45,10 +45,10 @@
 <div class="@[480px]:p-4">
 <div class="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat @[480px]:gap-8 @[480px]:rounded-xl items-center justify-center p-4" data-alt="Imagem abstrata com tons de verde e azul, simbolizando a natureza e a tecnologia." style='background-image: linear-gradient(rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.6) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuD04YcjDRtoeVWZvmVqZtfk4pWsQ6XTyX8IWdIlTycc6mUegvAMP6E3n1PLxcJP4AvspUfrNWqQTDatlEvowEZVNm1MDfKWKD7RIwPE83n1WwZB8RwMjXgX2AWK-V6HyPc3dp8RN_8jttdK2A4PDLLome5gLP45mWMvS9TGUKzl_HY4n7VTzhBpHh3bkU7tvZI998VmjS9lhaz_UkzBf8HaqFfZLp1OiR5ayTJB5sxjYuSMXB4v1ENKiFrXWRHhSRYCwcIfmPROSNk");'>
 <div class="flex flex-col gap-2 text-center">
-<h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em]">
+<h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em]" id="hero-title">
                     Qual o seu impacto no planeta? Descubra e contribua.
                   </h1>
-<h2 class="text-white text-sm font-normal leading-normal @[480px]:text-base @[480px]:font-normal @[480px]:leading-normal">
+<h2 class="text-white text-sm font-normal leading-normal @[480px]:text-base @[480px]:font-normal @[480px]:leading-normal" id="hero-subtitle">
                     Seus dados nos ajudam a impulsionar iniciativas de reciclagem e a criar um futuro mais sustentável. Participe!
                   </h2>
 </div>
@@ -279,7 +279,7 @@
 <div class="hidden flex-col items-center justify-center p-8 bg-white dark:bg-gray-800 rounded-xl shadow-lg text-center" id="feedback-section">
 <span class="material-symbols-outlined text-primary text-6xl mb-4">task_alt</span>
 <h3 class="text-2xl font-bold text-text-light dark:text-text-dark mb-2">Obrigado por sua contribuição!</h3>
-<p class="text-gray-600 dark:text-gray-300">Juntos, estamos fazendo a diferença. Com base no seu consumo, você ajudou a salvar aproximadamente <span class="font-bold text-primary" id="trees-saved">X árvores</span>!</p>
+<p class="text-gray-600 dark:text-gray-300">Seus dados foram enviados com sucesso. Juntos, estamos fazendo a diferença para um futuro mais sustentável!</p>
 </div>
 </form>
 
@@ -395,8 +395,14 @@ document.getElementById('recycling-form').addEventListener('submit', async funct
 
         // With no-cors mode, we can't check response status
         // Assume success if no error was thrown
+
+        // Update hero section with thank you message
+        document.getElementById('hero-title').textContent = 'Obrigado por sua contribuição!';
+        document.getElementById('hero-subtitle').textContent = 'Seus dados foram enviados com sucesso e nos ajudarão a impulsionar iniciativas de reciclagem para um futuro mais sustentável.';
+
+        // Hide the form and show only the success message
+        document.getElementById('recycling-form').style.display = 'none';
         document.getElementById('feedback-section').classList.remove('hidden');
-        document.getElementById('trees-saved').textContent = 'dados valiosos';
 
         // Scroll to success message
         document.getElementById('feedback-section').scrollIntoView({
