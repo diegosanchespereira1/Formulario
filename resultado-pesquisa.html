@@ -691,15 +691,18 @@
 
         // Share results function
         function shareResults() {
+            // Use the specific GitHub Pages URL for sharing
+            const surveyUrl = 'https://diegosanchespereira1.github.io/Formulario/';
+
             if (navigator.share) {
                 navigator.share({
                     title: 'Meu Impacto Ambiental',
                     text: 'Veja como meu consumo afeta o planeta! Calcule o seu também.',
-                    url: window.location.href
+                    url: surveyUrl
                 });
             } else {
                 // Fallback for browsers that don't support Web Share API
-                navigator.clipboard.writeText(window.location.href).then(() => {
+                navigator.clipboard.writeText(surveyUrl).then(() => {
                     alert('Link copiado para a área de transferência!');
                 });
             }
