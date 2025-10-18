@@ -379,11 +379,15 @@ document.getElementById('recycling-form').addEventListener('submit', async funct
     submitButton.querySelector('span').textContent = 'Enviando...';
     submitButton.disabled = true;
 
+    // Generate unique response ID
+    const responseId = 'RESP-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+
     // Collect form data as FormData
     const formData = new FormData(this);
 
-    // Add timestamp
+    // Add timestamp and response ID
     formData.append('timestamp', new Date().toISOString());
+    formData.append('responseId', responseId);
 
     try {
         // n8n webhook endpoint
