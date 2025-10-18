@@ -220,7 +220,7 @@
 </label>
 </div>
 <div class="mt-2">
-<input type="number" name="quantidade-sabao-liquido" class="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-text-light dark:text-text-dark focus:outline-none focus:ring-2 focus:ring-primary" value="0" min="0" placeholder="Quantas embalagens por mês">
+<input type="number" name="quantidade-sabao-liquido" class="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-text-light dark:text-text-dark focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Quantas embalagens por mês">
 </div>
 </div>
 <div>
@@ -236,7 +236,7 @@
 </label>
 </div>
 <div class="mt-2">
-<input type="number" name="quantidade-amaciante" class="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-text-light dark:text-text-dark focus:outline-none focus:ring-2 focus:ring-primary" value="0" min="0" placeholder="Quantas embalagens por mês">
+<input type="number" name="quantidade-amaciante" class="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-text-light dark:text-text-dark focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Quantas embalagens por mês">
 </div>
 </div>
 </div>
@@ -264,6 +264,25 @@
 <input type="radio" name="descarta-papelao" value="nao" class="mr-3 text-primary focus:ring-primary">
 <span class="text-text-light dark:text-text-dark">Não costumo descartar</span>
 </label>
+</div>
+</div>
+</div>
+
+<!-- CAPTCHA Section -->
+<div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
+<h3 class="text-text-light dark:text-text-dark text-xl font-bold leading-tight tracking-[-0.015em] mb-4">Verificação de Segurança</h3>
+<div class="flex flex-col items-center space-y-4">
+<div class="flex items-center space-x-4">
+<div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg">
+<div class="text-2xl font-mono font-bold text-gray-800 dark:text-gray-200" id="captcha-text">AB12</div>
+</div>
+<button type="button" onclick="generateCaptcha()" class="px-3 py-2 bg-primary text-white rounded-lg hover:bg-green-600 transition-colors">
+<span class="material-symbols-outlined text-sm">refresh</span>
+</button>
+</div>
+<div class="w-full max-w-xs">
+<label class="block text-sm font-medium text-text-light dark:text-text-dark mb-2">Digite os caracteres acima</label>
+<input type="text" id="captcha-input" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-text-light dark:text-text-dark focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Digite o código">
 </div>
 </div>
 </div>
@@ -303,10 +322,19 @@
 document.getElementById('recycling-form').addEventListener('submit', async function(e) {
     e.preventDefault();
 
+    // Validate CAPTCHA
+    const captchaInput = document.getElementById('captcha-input').value.trim();
+    const captchaText = document.getElementById('captcha-text').textContent;
+    if (captchaInput !== captchaText) {
+        alert('Por favor, digite corretamente os caracteres do CAPTCHA.');
+        document.getElementById('captcha-input').focus();
+        return;
+    }
+
     // Validate required fields
     const requiredFields = [
         'idade', 'cidade', 'estado', 'renda', 'moradia',
-        'adultos', 'usa-sabao-liquido', 'usa-amaciante', 'descarta-papelao'
+        'adultos', 'usa-sabao-liquido', 'usa-amaciante'
     ];
 
     let isValid = true;
@@ -421,6 +449,22 @@ document.getElementById('recycling-form').addEventListener('submit', async funct
         submitButton.querySelector('span').textContent = originalText;
         submitButton.disabled = false;
     }
+});
+
+// CAPTCHA Generation Function
+function generateCaptcha() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = '';
+    for (let i = 0; i < 4; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    document.getElementById('captcha-text').textContent = result;
+    document.getElementById('captcha-input').value = '';
+}
+
+// Initialize CAPTCHA on page load
+document.addEventListener('DOMContentLoaded', function() {
+    generateCaptcha();
 });
 </script>
 </body></html>
